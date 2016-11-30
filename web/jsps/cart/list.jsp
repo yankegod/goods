@@ -163,7 +163,16 @@
 		location ="/goods/CartItemServlet?method=batchDelete&cartItemIds="+cartItemIdArray;//自动调用toString方法
 
     }
-
+	function jiesuan() {    //获取所有被选中条目的id，用字符串形式带到后台,最后提交表单
+		var cartItemIdArray = new Array;
+		$(":checkbox[name=checkboxBtn][checked=true]").each(function () {
+		    cartItemIdArray.push($(this).val());
+        })
+		$("#cartItemIds").val(cartItemIdArray.toString());//放到表单的hidden字段中
+		//把总计参数带到后台。
+		$("#hiddenTotal").val($("#total").text());
+		$("#jieSuanForm").submit();
+    }
 </script>
   </head>
   <body>
@@ -240,14 +249,17 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="7" align="right">
-			<a href="<c:url value='/jsps/cart/showitem.jsp'/>" id="jiesuan" class="jiesuan"></a>
+		<td colspan="7" align="right">  <%--点击结算，触发函数，将下面的表单提交，传参数到后台--%>
+			<a href="javascript:jiesuan()" id="jiesuan" class="jiesuan"></a>
 		</td>
 	</tr>
 </table>
-	<form id="form1" action="<c:url value='/jsps/cart/showitem.jsp'/>" method="post">
+	<form id="jieSuanForm" action="<c:url value='CartItemServlet'/>" method="post">
 		<input type="hidden" name="cartItemIds" id="cartItemIds"/>
+			<%--表单的value是一个动态的，js赋值--%>
 		<input type="hidden" name="method" value="loadCartItems"/>
+		    <%--把总计带到下一个页面，js在提交前赋值--%>
+		<input type="hidden" name="total" id="hiddenTotal"/>
 	</form>
 
 		</c:otherwise>

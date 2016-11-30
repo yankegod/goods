@@ -39,6 +39,22 @@ public class CartItemDao {
     }
 
     /**
+     * 加载多个cartItem
+     * @param cartItemIds
+     * @return
+     * @throws SQLException
+     */
+    public List<CartItem> loadCartItems(String cartItemIds) throws SQLException {
+
+        Object[] cartItemIdArray = cartItemIds.split(",");//转换成数组
+
+        String whereSql = toWhereSql(cartItemIdArray.length);  //生成where子句
+
+        String sql ="select * from t_cartItem c,t_book b where c.bid = b.bid and "+whereSql;
+
+         return toCartItemList(qr.query(sql,new MapListHandler(),cartItemIdArray));
+    }
+    /**
      * 按id查询，与图书关联，要多表查询
      * @param cartItemId
      *

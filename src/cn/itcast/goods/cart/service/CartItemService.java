@@ -16,6 +16,19 @@ public class CartItemService {
     private CartItemDao cartItemDao = new CartItemDao();
 
     /**
+     * 加载多个cartItem
+     * @param cartItemIds
+     * @return
+     */
+    public List<CartItem> loadCartItems(String cartItemIds){
+        try {
+           return cartItemDao.loadCartItems(cartItemIds);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * 修改条目数量
      * @param cartItemId
      * @param quantity

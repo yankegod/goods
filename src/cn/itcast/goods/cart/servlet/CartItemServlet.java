@@ -24,6 +24,31 @@ public class CartItemServlet extends BaseServlet {
     private CartItemService cartItemService = new CartItemService();
 
     /**
+     * 加载多个cartItem
+     * @param req
+     * @param resp
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public String loadCartItems(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        //获取cartItemIds参数
+        String cartItemIds = req.getParameter("cartItemIds");
+        //通过service的到List<CartItem>
+        List<CartItem> cartItemList = cartItemService.loadCartItems(cartItemIds);
+
+        //把上个页面的total传到下一个页面
+        double total = Double.parseDouble(req.getParameter("total"));//后台获取的字符串要转换格式
+        req.setAttribute("total",total);
+        //保存到req中
+        req.setAttribute("cartItemList",cartItemList);
+        //转发到/cart/showitems.jsp
+        return "f:/jsps/cart/showitem.jsp";
+    }
+
+
+    /**
      * 修改条目：要修改谁，要改成什么
      * @param req
      * @param resp
