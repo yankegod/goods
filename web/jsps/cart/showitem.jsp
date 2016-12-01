@@ -36,9 +36,9 @@
   </head>
   
   <body>
-<form id="form1" action="<c:url value='/jsps/order/ordersucc.jsp'/>" method="post">
-	<input type="hidden" name="cartItemIds" value=""/>
-	<input type="hidden" name="method" value=""/>
+<form id="form1" action="<c:url value='/OrderServlet'/>" method="post">
+	<input type="hidden" name="cartItemIds" value="${cartItemIds}"/>
+	<input type="hidden" name="method" value="createOrder"/>
 <table width="95%" align="center" cellpadding="0" cellspacing="0">
 	<tr bgcolor="#efeae5">
 		<td width="400px" colspan="5"><span style="font-weight: 900;">生成订单</span></td>
@@ -70,7 +70,7 @@
 
 
 	<tr>
-		<td colspan="6" align="right">
+		<td colspan="6" align="right">     <%--第一次修改total 上一个页面list.jsp传给servlet，转换成数字，再传回来--%>
 			<span>总计：</span><span class="price_t">&yen;<span id="total">${total}</span></span>
 		</td>
 	</tr>

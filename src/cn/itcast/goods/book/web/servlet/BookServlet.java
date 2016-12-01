@@ -200,4 +200,7 @@ public class BookServlet extends BaseServlet {
 		req.setAttribute("pb", pb);
 		return "f:/jsps/book/list.jsp";
 	}
+
+
+
 }

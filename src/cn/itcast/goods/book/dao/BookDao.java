@@ -113,7 +113,8 @@ public class BookDao {
 	 * @throws SQLException 
 	 */
 	private PageBean<Book> findByCriteria(List<Expression> exprList,int pc) throws SQLException{
-		int ps = PageConstants.BOOK_PAGE_SIZE;
+
+		int ps = PageConstants.BOOK_PAGE_SIZE; //每页记录数
 		
 		//生成where子句
 		StringBuilder whereSql  = new StringBuilder("where 1=1");

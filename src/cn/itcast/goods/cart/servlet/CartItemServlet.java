@@ -22,7 +22,6 @@ import java.util.Map;
 @WebServlet("/CartItemServlet")
 public class CartItemServlet extends BaseServlet {
     private CartItemService cartItemService = new CartItemService();
-
     /**
      * 加载多个cartItem
      * @param req
@@ -43,6 +42,8 @@ public class CartItemServlet extends BaseServlet {
         req.setAttribute("total",total);
         //保存到req中
         req.setAttribute("cartItemList",cartItemList);
+        System.out.println(cartItemList);
+        req.setAttribute("cartItemIds",cartItemIds);  //继续传到下一个页面，用于结账时选择
         //转发到/cart/showitems.jsp
         return "f:/jsps/cart/showitem.jsp";
     }
