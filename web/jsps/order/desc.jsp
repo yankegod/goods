@@ -82,13 +82,13 @@
 			<span style="font-weight: 900; font-size: 15px;">合计金额：</span>
 			<span class="price_t">&yen;${order.total}</span><br/>
 <c:if test="${order.status eq 1}">
-	<a href="<c:url value='/jsps/order/pay.jsp'/>" class="pay"></a><br/>
+	<a href="<c:url value='/OrderServlet?method=paymentPre&oid=${order.oid}'/>" class="pay"></a><br/>
 </c:if>
-<c:if test="${order.status eq 1 and btn eq 'cancel'}">
-	<a id="cancel" href="javascript:alert('订单已取消！');">取消订单</a><br/>
+<c:if test="${order.status eq 1 and btn eq 'cancel'}"><%--不用c标签项目名就丢了--%>
+	<a id="cancel" href="<c:url value='/OrderServlet?method=cancel&oid=${order.oid}'/>">取消订单</a><br/>
 </c:if>
 <c:if test="${order.status eq 3 and btn eq 'confirm'}">
-	<a id="confirm" href="javascript:alert('交易成功！');">确认收货</a><br/>
+	<a id="confirm" href="<c:url value='/OrderServlet?method=confirm&oid=${order.oid}'/>">确认收货</a><br/>
 </c:if>
 
 

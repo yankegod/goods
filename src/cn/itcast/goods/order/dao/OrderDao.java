@@ -9,6 +9,7 @@ import cn.itcast.goods.page.PageBean;
 import cn.itcast.goods.page.PageConstants;
 import cn.itcast.goods.user.domain.User;
 import cn.itcast.jdbc.TxQueryRunner;
+import com.sun.javafx.binding.StringFormatter;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 
@@ -116,6 +117,29 @@ public class OrderDao {
         return orderItem;
     }
 
+    /**
+     * 查询订单状态
+     * @param oid
+     * @return
+     * @throws SQLException
+     */
+    public int findStatus(String oid) throws SQLException {
+        String sql = "select status from t_order where oid =?";
+        Number number = (Number) queryRunner.query(sql,new ScalarHandler(),oid);
+
+        return number.intValue();  //需要返回一个int类型的值
+    }
+
+    /**
+     * 修改订单状态
+     * @param oid
+     * @param status
+     * @throws SQLException
+     */
+    public void updateStatus(String oid ,int status) throws SQLException {
+        String sql = "update t_order set status = ? where oid = ?";
+        queryRunner.update(sql,status,oid);
+    }
     /**
      * 加载订单
      * @param oid

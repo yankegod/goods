@@ -70,7 +70,7 @@ public class CartItemServlet extends BaseServlet {
         stringBuilder.append("\"subtotal\"").append(":").append(cartItem.getSubtotal());
         stringBuilder.append("}");
 
-        System.out.println(stringBuilder);
+        //System.out.println(stringBuilder);
 
         resp.getWriter().print(stringBuilder);   //给客户端返回了一个json对象，js自动解析。
 

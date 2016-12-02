@@ -14,14 +14,39 @@ public class OrderService {
     private OrderDao orderDao =new OrderDao();
 
     /**
-     * 加载订单
-     * @param uid
+     * 修改订单状态
+     * @param oid
+     * @param status
+     */
+    public void updateStatus(String oid,int status){
+        try {
+            orderDao.updateStatus(oid,status);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * 获取订单状态
+     * @param oid
      * @return
      */
-    public Order load(String uid){
+    public int findStatus(String oid){
+        try {
+            return orderDao.findStatus(oid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    /**
+     * 加载订单
+     * @param oid
+     * @return
+     */
+    public Order load(String oid){
         try {
             JdbcUtils.beginTransaction();
-            Order order = orderDao.load(uid);
+            Order order = orderDao.load(oid);
             JdbcUtils.commitTransaction();
             return order;
         } catch (SQLException e) {
@@ -49,7 +74,6 @@ public class OrderService {
             throw new RuntimeException(e);
         }
     }
-
     /**
      * 我的订单:事务处理，有两张表两个实体类
      * @param uid
