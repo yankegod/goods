@@ -17,7 +17,7 @@ import cn.itcast.servlet.BaseServlet;
  *
  */
 
-@WebServlet("/CategoryServlet")
+@WebServlet(name = "CategoryServlet",urlPatterns = "/CategoryServlet")
 public class CategoryServlet extends BaseServlet {
 	CategoryService categoryService  = new CategoryService();
 	

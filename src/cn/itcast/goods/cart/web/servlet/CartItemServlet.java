@@ -1,4 +1,4 @@
-package cn.itcast.goods.cart.servlet;
+package cn.itcast.goods.cart.web.servlet;
 
 import cn.itcast.commons.CommonUtils;
 import cn.itcast.goods.book.domain.Book;
@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by yanke on 2016/11/29.
  */
-@WebServlet("/CartItemServlet")
+@WebServlet(name = "CartItemServlet",urlPatterns = "/CartItemServlet")
 public class CartItemServlet extends BaseServlet {
     private CartItemService cartItemService = new CartItemService();
     /**

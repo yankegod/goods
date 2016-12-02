@@ -26,7 +26,7 @@ import java.util.Properties;
  * Created by yanke on 2016/12/1.
  */
 
-@WebServlet("/OrderServlet" )
+@WebServlet(name="OrderServlet",urlPatterns = "/OrderServlet" )
 public class OrderServlet extends BaseServlet {
     private OrderService orderService = new OrderService();
     private CartItemService cartItemService = new CartItemService();//跨模块依赖
@@ -159,7 +159,7 @@ public class OrderServlet extends BaseServlet {
 
         System.out.println(stringBuilder);
 
-        resp.sendRedirect(stringBuilder.toString());
+        resp.sendRedirect(stringBuilder.toString());//重定向，发给易宝，易宝会生成订单，跳转到相应的银行。
         return null;
 
 

@@ -23,7 +23,7 @@ import cn.itcast.servlet.BaseServlet;
  * @author qdmmy6
  *
  */
-@WebServlet("/UserServlet")
+@WebServlet(name = "UserServlet",urlPatterns ="/UserServlet")
 public class UserServlet extends BaseServlet {
 
 	private UserService userService = new UserService();
