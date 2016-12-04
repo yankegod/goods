@@ -20,8 +20,15 @@ import cn.itcast.servlet.BaseServlet;
 @WebServlet(name = "CategoryServlet",urlPatterns = "/CategoryServlet")
 public class CategoryServlet extends BaseServlet {
 	CategoryService categoryService  = new CategoryService();
-	
-//
+
+	/**
+	 * 查询所有分类
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public String findAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Category> parents= categoryService.findAll();
 		req.setAttribute("parents", parents);

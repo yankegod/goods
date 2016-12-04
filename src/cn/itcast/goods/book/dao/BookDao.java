@@ -162,7 +162,22 @@ public class BookDao {
 		
 		return pb;
 	}
-//	public static void main(String[] args) throws SQLException {
+
+	/**
+	 * 通过分类查询图书数量
+	 * @param cid
+	 * @return
+	 */
+	public int findBookCountByCategory(String cid) throws SQLException {
+		String sql = "select count(*) from t_book where cid = ?";
+
+		Number cnt = (Number)qr.query(sql,new ScalarHandler(), cid);
+
+		return cnt == null ? 0 :cnt.intValue();
+	}
+
+
+	//	public static void main(String[] args) throws SQLException {
 //		BookDao bookDao = new BookDao();
 //		List<Expression> exprList =new ArrayList<>();
 //		exprList.add(new Expression("bid","=","1"));
@@ -171,4 +186,5 @@ public class BookDao {
 //		
 //		//bookDao.findByCriteria(exprList, 10);
 //	}
+
 }

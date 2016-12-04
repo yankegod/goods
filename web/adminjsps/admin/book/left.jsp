@@ -16,36 +16,35 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<link rel="stylesheet" type="text/css" href="<c:url value='/adminjsps/admin/css/book/left.css'/>">
+	  <script type="text/javascript" src="<c:url value='/jquery/jquery-1.5.1.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/menu/mymenu.js'/>"></script>
 	<link rel="stylesheet" href="<c:url value='/menu/mymenu.css'/>" type="text/css" media="all">
-<script language="javascript">
-var bar = new Q6MenuBar("bar", "图书分类");
+	  <script language="javascript">
 
-function load() {
-	bar.colorStyle = 2;
-	bar.config.imgDir = "<c:url value='/menu/img/'/>";
-	bar.config.radioButton=true;
+		  /*
+		   * 对象名必须与第一个参数相同。
+		   第二个参数是显示在菜单上的大标题
+		   */
 
-	bar.add("程序设计", "Java Javascript", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("程序设计", "JSP", "/goods/jsps/book/list.jsp", "body");
-	bar.add("程序设计", "C C++ VC VC++", "/goods/adminjsps/admin/book/list.jsp", "body");
-	
-	bar.add("办公室用书", "微软Office", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("办公室用书", "计算机初级入门", "/goods/jsps/book/list.jsp", "body");
-	
-	bar.add("图形 图像 多媒体", "Photoshop", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "3DS MAX", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "网页设计", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "Flush", "/goods/adminjsps/admin/book/list.jsp", "body");
-	
-	bar.add("操作系统/系统开发", "Windows", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("操作系统/系统开发", "Linux", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("操作系统/系统开发", "系统开发", "/goods/adminjsps/admin/book/list.jsp", "body");
-	  
-	var d = document.getElementById("menu");
-	d.innerHTML = bar.toString();
-}
-</script>
+          var bar = new Q6MenuBar("bar", "传智播客网上书城");  //小工具：/menu/mymenu.js
+          $(function() {
+              bar.colorStyle = 2;   //制定配色样式一共0，1,2,3,4
+              bar.config.imgDir = "<c:url value='/menu/img/'/>";//小工具所需图片的路径“+”“-”
+              bar.config.radioButton=true;                      //多个一级分类是否排斥！！
+              /**
+               *
+               一级分类、二级分类、二级分类的url、链接的内容在哪个框架页中显示。
+               第一次出现一级分类时才会创建一级分类
+               */
+              <c:forEach items="${parents}" var="parent">
+              <c:forEach items="${parent.children}" var="child">
+              bar.add("${parent.cname}", "${child.cname}", "/goods/admin/AdminBookServlet?method=findByCategory&cid=${child.cid}", "body");//要取出名字！！！
+              </c:forEach>
+              </c:forEach>
+              $("#menu").html(bar.toString());
+
+          });
+	  </script>
   </head>
   
   <body onload="load()">

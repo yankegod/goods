@@ -90,6 +90,18 @@ public class BookService {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-	}	
-	
+	}
+
+	/**
+	 * 查询指定分类下个的图书数目
+	 * @param cid
+	 * @return
+	 */
+	public int findBookCountByCategory(String cid){
+		try {
+			return bookDao.findBookCountByCategory(cid);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

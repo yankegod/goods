@@ -1,4 +1,4 @@
-package cn.itcast.good.web.filter;
+package cn.itcast.goods.filter;
 
 import cn.itcast.goods.user.domain.User;
 
