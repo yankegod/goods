@@ -19,15 +19,7 @@ public class Book {
 	private String paper;
 	private Category category;  //数据库由主外键关联，而对象模型由对象本身组成Category
 	private String image_w;  //大图路径
-	
-	@Override
-	public String toString() {
-		return "Book [uid=" + bid + ", bname=" + bname + ", author=" + author + ", price=" + price + ", currPrice="
-				+ currPrice + ", discount=" + discount + ", press=" + press + ", publishtime=" + publishtime
-				+ ", edition=" + edition + ", pageNum=" + pageNum + ", wordNum=" + wordNum + ", printtime=" + printtime
-				+ ", booksize=" + booksize + ", paper=" + paper + ", category=" + category + ", image_w=" + image_w
-				+ ", image_b=" + image_b + "]";
-	}
+
 	public String getBid() {
 		return bid;
 	}
@@ -132,4 +124,27 @@ public class Book {
 		this.image_b = image_b;
 	}
 	private String image_b; //小图路径
+
+	@Override
+	public String toString() {
+		return "Book{" +
+				"bid='" + bid + '\'' +
+				", bname='" + bname + '\'' +
+				", author='" + author + '\'' +
+				", price=" + price +
+				", currPrice=" + currPrice +
+				", discount=" + discount +
+				", press='" + press + '\'' +
+				", publishtime='" + publishtime + '\'' +
+				", edition=" + edition +
+				", pageNum=" + pageNum +
+				", wordNum=" + wordNum +
+				", printtime='" + printtime + '\'' +
+				", booksize=" + booksize +
+				", paper='" + paper + '\'' +
+				", category=" + category +
+				", image_w='" + image_w + '\'' +
+				", image_b='" + image_b + '\'' +
+				'}';
+	}
 }

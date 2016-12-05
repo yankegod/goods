@@ -27,7 +27,7 @@ public class BookDao {
 	 * @return
 	 */
 	public Book findByBid(String bid) throws SQLException {
-		String sql = "select * from t_book where bid = ?";
+		String sql = "select * from t_book b ,t_category c  where b.cid=c.cid and b.bid = ?";
 		//map中有图书信息 和 cid得到一个Category
 		Map<String,Object> map = qr.query(sql,new MapHandler(),bid);
 
@@ -36,6 +36,13 @@ public class BookDao {
 		Category category = CommonUtils.toBean(map,Category.class);
 
 		book.setCategory(category);
+
+		//把pid获取出来
+		if(map.get("pid")!=null) {
+			Category parent = new Category();
+			parent.setCid((String) map.get("pid"));
+			category.setParent(parent);
+		}
 
 		return book;
 	}
@@ -176,8 +183,45 @@ public class BookDao {
 		return cnt == null ? 0 :cnt.intValue();
 	}
 
+	/**
+	 * 添加图书
+	 * @param book
+	 */
+    public void add(Book book) throws SQLException {
+    	String sql = "insert into t_book(bid,bname,author,price,currPrice,discount,press,publishtime," +
+				"edition,pageNum,wordNum,printtime,booksize,paper,cid,image_w,image_b)" +
+				" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //17个
+    	Object[] params ={book.getBid(),book.getBname(),book.getAuthor(),book.getPrice(),book.getCurrPrice(),
+							book.getDiscount(),book.getPress(),book.getPublishtime(),book.getEdition(),
+    						book.getPageNum(),book.getWordNum(),book.getPrinttime(),book.getBooksize(),
+    						book.getPaper(),book.getCategory().getCid(),book.getImage_w(),book.getImage_b()};
+    	qr.update(sql,params);
+    }
 
-	//	public static void main(String[] args) throws SQLException {
+	/**
+	 * 修改图书
+	 * @param book
+	 */
+	public void edit(Book book) throws SQLException {
+    	String sql = "update t_book set bname = ?,author=?,price=?,currPrice=?,discount=?,press=?,publishtime=?" +
+				",edition=?,pageNum=?,wordNum=?,printtime=?,booksize=?,paper=?,cid=? where bid = ?";
+    	Object[] params = {book.getBname(),book.getAuthor(),book.getPrice(),book.getCurrPrice(),
+				book.getDiscount(),book.getPress(),book.getPublishtime(),book.getEdition(),
+				book.getPageNum(),book.getWordNum(),book.getPrinttime(),book.getBooksize(),
+				book.getPaper(),book.getCategory().getCid(),book.getBid()};
+    	qr.update(sql,params);
+	}
+
+	/**
+	 * 删除图书！！！
+	 * @param bid
+	 */
+	public void delete(String bid) throws SQLException {
+		String sql ="delete from t_book where bid = ?";
+		qr.update(sql,bid);
+	}
+
+    //	public static void main(String[] args) throws SQLException {
 //		BookDao bookDao = new BookDao();
 //		List<Expression> exprList =new ArrayList<>();
 //		exprList.add(new Expression("bid","=","1"));

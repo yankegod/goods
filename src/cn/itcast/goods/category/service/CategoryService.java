@@ -97,4 +97,17 @@ public class CategoryService {
 		}
 	}
 
+	/**
+	 * 查询指定父分类下的所有子分类
+	 * @param pid
+	 * @return
+	 */
+	public List<Category> findByparent(String pid){
+		try {
+			return  categoryDao.findByParent(pid);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

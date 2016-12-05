@@ -104,4 +104,42 @@ public class BookService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	/**
+	 * 添加图书
+	 * @param book
+	 */
+	public void add(Book book){
+		try{
+		bookDao.add(book);
+		}catch (SQLException e){
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	/**
+	 * 编辑图书
+	 * @param book
+	 */
+	public void edit(Book book){
+		try {
+			bookDao.edit(book);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 删除图书
+	 * @param bid
+	 */
+	public void delete(String bid){
+		try {
+			bookDao.delete(bid);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

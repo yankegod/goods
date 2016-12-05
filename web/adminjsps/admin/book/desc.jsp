@@ -42,7 +42,43 @@ $(function() {
 		}
 	});
 });
+function loadChildren(){
+	/*
+	 *获取pid。发送异步请求，成功后得到一个数组，获取cid元素，把内部<option>全部删除，添加一个头<option>请选择二级分类<option>
+	 */
+    var pid = $("#pid").val();
+    $.ajax({
+        async:true,
+        cache:false,
+        url:"/goods/admin/AdminBookServlet",
+        data: {method:"ajaxFindChildren",pid:pid},
+        type:"POST",
+        dataType:"json",
+        success:function (arr) {
+            $("#cid").empty();                //删除元素子元素，它本身不被删除。
+            $("#cid").append($("<option>====请选择二级分类</option>"));  //添加头。
+            for(var i=0;i<arr.length;i++){
+                var  option = $("<option>").val(arr[i].cid).text(arr[i].cname) //
+                //生成带有value和name的option添加到列表中。
+                $("#cid").append(option);
+            }
 
+        }
+
+    });
+}
+/**
+ * 实现一个表单多个按钮不同动作！！！！
+ */
+function editForm() {
+	$("#method").val("edit");
+	$("#form").submit();
+}
+
+function deleteForm() {
+	$("#method").val("delete");
+	$("#form").submit();
+}
 </script>
   </head>
   
@@ -91,8 +127,9 @@ $(function() {
   
   <div id='formDiv'>
    <div class="sm">&nbsp;</div>
-   <form action="javascript:alert('编辑或删除图书成功！')" method="post" id="form">
-   	<input type="hidden" name="bid" value=""/>
+   <form action="<c:url value='/admin/AdminBookServlet'/>" method="post" id="form">
+   	<input type="hidden" name="bid" value="${book.bid}"/>
+	   <input type="hidden" name="method" id = "method"/>
    	<input type="hidden" name="image_w" value=""/>
    	<input type="hidden" name="image_b" value=""/>
     <img align="top" src="<c:url value='/${book.image_w}'/>" class="tp"/>
@@ -133,18 +170,17 @@ $(function() {
 				<td>
 					一级分类：<select name="pid" id="pid" onchange="loadChildren()">
 						<option value="">==请选择1级分类==</option>
-			    		<option value="1" selected='selected'>程序设计</option>
-			    		<option value="2">办公室用书</option>
-			    		<option value="3">图形 图像 多媒体</option>
-			    		<option value="4">操作系统/系统开发</option>
-					</select>
+			    	<c:forEach items="${parents}" var="parent">
+						<option value="${parent.cid}" <c:if test="${parent.cid eq book.category.parent.cid}">selected = 'selected'</c:if>>${parent.cname}</option>
+					</c:forEach>
+				</select>
 				</td>
 				<td>
 					二级分类：<select name="cid" id="cid">
 						<option value="">==请选择2级分类==</option>
-			    		<option value="1" selected='selected'>Java Javascript</option>
-			    		<option value="2">JSP</option>
-			    		<option value="3">C C++ VC VC++</option>
+					<c:forEach items="${children}" var="child">
+						<option value="${child.cid}" <c:if test="${child.cid eq book.category.cid}">selected = 'selected'</c:if> >${child.cname}</option>
+					</c:forEach>
 					</select>
 				</td>
 				<td></td>
@@ -152,7 +188,7 @@ $(function() {
 			<tr>
 				<td colspan="2">
 					<input onclick="editForm()" type="button" name="method" id="editBtn" class="btn" value="编　　辑">
-					<input onclick="delForm()" type="button" name="method" id="delBtn" class="btn" value="删　　除">
+					<input onclick="deleteForm()" type="button" name="method" id="delBtn" class="btn" value="删　　除">
 				</td>
 				<td></td>
 			</tr>

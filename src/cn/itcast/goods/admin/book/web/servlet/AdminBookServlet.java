@@ -1,4 +1,4 @@
-package cn.itcast.goods.admin.admin.book.web.servlet;
+package cn.itcast.goods.admin.book.web.servlet;
 
 import cn.itcast.commons.CommonUtils;
 import cn.itcast.goods.admin.admin.service.AdminService;
@@ -13,9 +13,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yanke on 2016/12/4.
@@ -26,6 +28,32 @@ public class AdminBookServlet extends BaseServlet {
     CategoryService categoryService =new CategoryService();
 
     /**
+     * 删除图书
+     * @param req
+     * @param resp
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public String delete(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String bid = req.getParameter("bid");
+
+        Book book =bookService.load(bid);
+
+        //删除途径
+        String savepath = this.getServletContext().getRealPath("/");  //获取真实路径。
+
+        File file = new File(savepath,book.getImage_w());
+        file.delete();
+System.out.println(file.getAbsolutePath());
+        new File(savepath,book.getImage_b()).delete();
+        bookService.delete(bid);//删除数据库数据;
+        req.setAttribute("msg","删除图书成功！！！");
+
+        return "f:/adminjsps/msg.jsp";
+    }
+    /**
      * 显示所有分类
      * @param req
      * @param resp
@@ -33,7 +61,8 @@ public class AdminBookServlet extends BaseServlet {
      * @throws ServletException
      * @throws IOException
      */
-    public String findCategoryAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String findCategoryAll(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
         List<Category> parents= categoryService.findAll();
         req.setAttribute("parents", parents);
@@ -78,22 +107,7 @@ public class AdminBookServlet extends BaseServlet {
 
     }
 
-    /**
-     * 按bid查询
-     * @param req
-     * @param resp
-     * @return
-     * @throws ServletException
-     * @throws IOException
-     */
-    public String load(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String bid = req.getParameter("bid");
-        Book book = bookService.load(bid);
-        req.setAttribute("book",book);
 
-        return "f:/adminjsps/admin/book/desc.jsp";
-    }
     /**
      * 按分类查询
      * @param req
@@ -220,5 +234,111 @@ public class AdminBookServlet extends BaseServlet {
         pb.setUrl(url);
         req.setAttribute("pb", pb);
         return "f:/adminjsps/admin/book/list.jsp";
+    }
+
+    /**
+     * 添加图书第一步
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public String addPre(HttpServletRequest request,HttpServletResponse response)
+                throws ServletException,IOException{
+        /*
+        获取所有一级分类，保存之，转发到add.jsp
+         */
+        List<Category> parents = categoryService.findParents();
+        request.setAttribute("parents",parents);
+
+        return "f:/adminjsps/admin/book/add.jsp";
+
+    }
+
+    /**
+     * 加载指定父分类下的二级分类
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public String ajaxFindChildren(HttpServletRequest request,HttpServletResponse response)
+            throws ServletException,IOException{
+
+        String pid = request.getParameter("pid");
+
+        List<Category> children =categoryService.findByparent(pid);
+        //把List<Category>转换成json
+        String json =toJson(children);
+   System.out.println(json);
+        response.getWriter().print(json);
+        return null;
+    }
+
+    private String toJson(Category category){
+        StringBuilder stringBuilder =new StringBuilder("{");
+        stringBuilder.append("\"cid\"").append(":").append("\"").append(category.getCid()).append("\"");
+        stringBuilder.append(",");
+        stringBuilder.append("\"cname\"").append(":").append("\"").append(category.getCname()).append("\"");
+        stringBuilder.append("}");
+
+        return stringBuilder.toString();
+    }
+
+    //[{"cid":"dfsdf",},{}]
+    private String toJson(List<Category> categoryList){
+        StringBuilder stringBuilder = new StringBuilder("[");
+        for (int i=0 ;i<categoryList.size();i++){
+            stringBuilder.append(toJson(categoryList.get(i)));
+
+            if(i < categoryList.size()-1){
+                stringBuilder.append(",");
+            }
+        }
+        stringBuilder.append("]");
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 加载图书
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public String load(HttpServletRequest request,HttpServletResponse response)
+            throws ServletException,IOException {
+        String bid = request.getParameter("bid");
+        Book book = bookService.load(bid);   //获取bid，得到book对象。
+        request.setAttribute("book",book);
+
+        //获取所有一级分类
+        List<Category> parents = categoryService.findParents();
+        request.setAttribute("parents",parents);
+
+        //获取当前图书所属的一级分类的所有二级分类
+
+        List<Category> chidren = categoryService.findByparent(book.getCategory().getParent().getCid());
+        request.setAttribute("children",chidren);
+
+        return "f:/adminjsps/admin/book/desc.jsp";
+    }
+    public String edit(HttpServletRequest request,HttpServletResponse response)
+            throws ServletException,IOException {
+        //把表单数据封装到book中，把cid封装到Categoy中，
+        Map map = request.getParameterMap();
+        Book book = CommonUtils.toBean(map,Book.class);
+        Category category =CommonUtils.toBean(map,Category.class);
+       // Category category  = new Category();
+        // category.setCid(request.getParameter("cid"));
+        book.setCategory(category);
+        bookService.edit(book);
+        request.setAttribute("msg","修改图书成功");
+
+        return "f:/adminjsps/msg.jsp";
     }
 }

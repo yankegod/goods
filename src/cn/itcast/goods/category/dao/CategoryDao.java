@@ -14,6 +14,8 @@ import cn.itcast.goods.category.domain.Category;
 import cn.itcast.jdbc.TxQueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import javax.swing.*;
+
 /**
  * 分类持久层
  * @author yanke
@@ -62,10 +64,15 @@ public class CategoryDao {
 		List<Map<String,Object>> mapList=qr.query(sql, new MapListHandler());
 		
 		List<Category> parents =toCategoryList(mapList);
+
+
 		
 		for(Category parent :parents){ //查询父分类下所有子分类，设置给父类
 			List<Category> children = findByParent(parent.getCid());
 			parent.setChildren(children);
+
+			JButton b1 = new JButton("button1");
+			System.out.println(b1.getName());
 		}
 		return parents;
 	}
@@ -79,6 +86,7 @@ public class CategoryDao {
 		String sql = "select * from t_category where pid = ? order by orderBy";
 		List<Map<String,Object>>mapList = qr.query(sql, new MapListHandler(),pid);
 		return toCategoryList(mapList);
+
 	}
 
 	/**
