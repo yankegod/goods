@@ -94,4 +94,45 @@ public class OrderService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 按状态查询
+     * @param status
+     * @param pc
+     * @return
+     */
+    public PageBean<Order> findByStatus(int status, int pc){
+        try {
+            //开启事务
+            JdbcUtils.beginTransaction();
+            PageBean<Order> pageBean =orderDao.findByStatus(status,pc);
+            JdbcUtils.commitTransaction();
+            return pageBean;
+        } catch (SQLException e) {
+            try {
+                JdbcUtils.rollbackTransaction();
+            } catch (SQLException e1) {}
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 查询所有订单
+     * @param pc
+     * @return
+     */
+    public PageBean<Order> findAll( int pc){
+        try {
+            //开启事务
+            JdbcUtils.beginTransaction();
+            PageBean<Order> pageBean =orderDao.findAll(pc);
+            JdbcUtils.commitTransaction();
+            return pageBean;
+        } catch (SQLException e) {
+            try {
+                JdbcUtils.rollbackTransaction();
+            } catch (SQLException e1) {}
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -185,7 +185,7 @@ System.out.println(file.getAbsolutePath());
         //给PageBean设置url，保存，转发到/jsps/book/list.jsp
         pb.setUrl(url);
         req.setAttribute("pb", pb);
-        System.out.println(pb);
+// System.out.println(pb);
         return "f:/adminjsps/admin/book/list.jsp";
     }
     /**

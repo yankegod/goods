@@ -173,6 +173,32 @@ public class OrderDao {
         expressionList.add(new Expression("uid","=",uid));
         return findByCriteria(expressionList,pc);
     }
+    /**
+     *按状态查询。
+     * @param status
+     * @param pc
+     * @return
+     */
+    public PageBean<Order> findByStatus(int status,int pc) throws SQLException {
+
+        List<Expression> expressionList = new ArrayList<Expression>();
+        expressionList.add(new Expression("status","=",status+"")); //需要时字符串！！
+        return findByCriteria(expressionList,pc);
+    }
+
+    /**
+     * 查询所有订单
+     * @param
+     * @param pc
+     * @return
+     * @throws SQLException
+     */
+    public PageBean<Order> findAll(int pc) throws SQLException {
+
+        List<Expression> expressionList = new ArrayList<Expression>();
+
+        return findByCriteria(expressionList,pc);
+    }
 
     /**
      * 生成订单：插入订单，插入订单项

@@ -135,9 +135,9 @@ public class AdminAddBookServlet extends HttpServlet {
 
         //校验图片尺寸：保存上传图片，图片new成图片对象 Image ，Icon，ImageIcon，BufferedImage，ImageIO
          savepath = this.getServletContext().getRealPath("/book_img");//保存真实路径
- System.out.println("==================="+savepath);
+ //System.out.println("==================="+savepath);
         String savepath1 = this.getServletContext().getContextPath() ;
- System.out.println("==================="+savepath1);
+ //System.out.println("==================="+savepath1);
          destFile = new File(savepath,filename);  //创建目标文件
         try {
             fileItem1.write(destFile);   //把临时文件重定向到指定的路径，再删除临时文件。二次调用会出现找不到文件的情况。

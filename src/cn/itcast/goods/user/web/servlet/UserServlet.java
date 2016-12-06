@@ -267,7 +267,7 @@ throws ServletException, IOException {
 		if(errors.size()>0){
 			req.setAttribute("form", formUser);
 			req.setAttribute("errors", errors);
-			System.out.println("有错误");
+			//System.out.println("有错误");
 			return "f:/jsps/user/login.jsp";
 		}
 		User user = userService.login(formUser);
@@ -308,20 +308,20 @@ private Map<String,String> validateLogin(User formUser, HttpSession session) {
 	String loginname = formUser.getLoginname();
 	if(loginname == null || loginname.trim().isEmpty()){
 		errors.put("loginname", "用户名不能为空！！！");
-		System.out.println("用户名不能为空！！！");
+		//System.out.println("用户名不能为空！！！");
 	}else if(loginname.length()<3 || loginname.length()>8){
 		errors.put("loginname", "用户名长度3-8之间");
-		System.out.println("用户名长度3-8之间");
+		//System.out.println("用户名长度3-8之间");
 	}
 	
 	//后台密码校验
 	String loginpass = formUser.getLoginpass();
 	if(loginpass == null || loginpass.trim().isEmpty()){
 		errors.put("loginpass", "密码不能为空");
-		System.out.println("密码不能为空");
+		//System.out.println("密码不能为空");
 	}else if(loginpass.length()<3 || loginpass.length()>8){
 		errors.put("loginpass", "密码长度3-8之间");
-		System.out.println("密码长度3-8之间");
+		//System.out.println("密码长度3-8之间");
 	}
 	
 	//后台验证码校验
@@ -329,10 +329,10 @@ private Map<String,String> validateLogin(User formUser, HttpSession session) {
 	String vcode = (String) session.getAttribute("vCode");
 	if(verifyCode == null || verifyCode.trim().isEmpty()) {
 		errors.put("verifyCode", "验证码不能为空！");
-		System.out.println("验证码不能为空！");
+		//System.out.println("验证码不能为空！");
 	}else if(!verifyCode.equalsIgnoreCase(vcode)){
 		errors.put("verifyCode", "验证码不正确！！");
-		System.out.println("验证码不正确！！");
+		//System.out.println("验证码不正确！！");
 	}
 	return errors;
 }

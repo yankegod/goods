@@ -39,13 +39,13 @@
   
   <body>
 	<div class="main">
-	  <div><img src="<c:url value='/images/logo.gif'/>" /></div>
+
 	  <div>
 	    <div class="imageDiv"><img class="img" src="<c:url value='/images/zj.png'/>"/></div>
         <div class="login1">
 	      <div class="login2">
             <div class="loginTopDiv">
-              <span class="loginTop">传智会员登录</span>
+              <span class="loginTop">会员登录</span>
               <span>
                 <a href="<c:url value='/jsps/user/regist.jsp'/>" class="registBtn"></a>
               </span>

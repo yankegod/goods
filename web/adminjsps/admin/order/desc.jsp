@@ -22,21 +22,21 @@
 <body>
 	<div class="divOrder">
 		<span>订单号：${oder.oid }
-				(等待付款)
-<!-- 
-				(准备发货)
-				(等待确认)
-				(交易成功)
-				(已取消)
- -->
-		　　　下单时间：2013-06-01 19:30:22
+	<c:choose>
+		<c:when test="${order.status eq 1}">(等待付款)</c:when>
+		<c:when test="${order.status eq 2}">(准备发货)</c:when>
+		<c:when test="${order.status eq 3}">(等待确认)</c:when>
+		<c:when test="${order.status eq 4}">(交易成功)</c:when>
+		<c:when test="${order.status eq 5}">(已取消)</c:when>
+	</c:choose>
+		　　　下单时间：${order.ordertime}
 		</span>
 	</div>
 	<div class="divRow">
 		<div class="divContent">
 			<dl>
 				<dt>收货人信息</dt>
-				<dd>北京市 昌平区 西三旗 金燕龙办公楼1层 传智播客 张三爷</dd>
+				<dd>${order.address}</dd>
 			</dl>
 		</div>
 		<div class="divContent">
@@ -53,99 +53,28 @@
 
 
 
-
+<c:forEach items="${order.orderItemList}" var="orderItem">
 
 						<tr style="padding-top: 20px; padding-bottom: 20px;">
 							<td class="td" width="400px">
 								<div class="bookname">
-								  <img align="middle" width="70" src="<c:url value='/book_img/23254532-1_b.jpg'/>"/>
-								  Spring实战(第3版)（In Action系列中最畅销的Spring图书，近十万读者学习Spring的共同选择）
+								  <img align="middle" width="70" src="<c:url value='/${orderItem.book.image_b}'/>"/>
+								  ${orderItem.book.bname}
 								</div>
 							</td>
 							<td class="td" >
-								<span>&yen;40.7</span>
+								<span>&yen;${orderItem.book.currPrice}</span>
 							</td>
 							<td class="td">
-								<span>1</span>
+								<span>${orderItem.quantity }</span>
 							</td>
 							<td class="td">
-								<span>&yen;40.7</span>
+								<span>&yen;${orderItem.subtotal}</span>
 							</td>			
 						</tr>
+</c:forEach>
 
 
-
-
-						<tr style="padding-top: 20px; padding-bottom: 20px;">
-							<td class="td" width="400px">
-								<div class="bookname">
-								  <img align="middle" width="70" src="<c:url value='/book_img/23254532-1_b.jpg'/>"/>
-								  Spring实战(第3版)（In Action系列中最畅销的Spring图书，近十万读者学习Spring的共同选择）
-								</div>
-							</td>
-							<td class="td" >
-								<span>&yen;40.7</span>
-							</td>
-							<td class="td">
-								<span>1</span>
-							</td>
-							<td class="td">
-								<span>&yen;40.7</span>
-							</td>			
-						</tr>
-						<tr style="padding-top: 20px; padding-bottom: 20px;">
-							<td class="td" width="400px">
-								<div class="bookname">
-								  <img align="middle" width="70" src="<c:url value='/book_img/23254532-1_b.jpg'/>"/>
-								  Spring实战(第3版)（In Action系列中最畅销的Spring图书，近十万读者学习Spring的共同选择）
-								</div>
-							</td>
-							<td class="td" >
-								<span>&yen;40.7</span>
-							</td>
-							<td class="td">
-								<span>1</span>
-							</td>
-							<td class="td">
-								<span>&yen;40.7</span>
-							</td>			
-						</tr>
-						<tr style="padding-top: 20px; padding-bottom: 20px;">
-							<td class="td" width="400px">
-								<div class="bookname">
-								  <img align="middle" width="70" src="<c:url value='/book_img/23254532-1_b.jpg'/>"/>
-								  Spring实战(第3版)（In Action系列中最畅销的Spring图书，近十万读者学习Spring的共同选择）
-								</div>
-							</td>
-							<td class="td" >
-								<span>&yen;40.7</span>
-							</td>
-							<td class="td">
-								<span>1</span>
-							</td>
-							<td class="td">
-								<span>&yen;40.7</span>
-							</td>			
-						</tr>
-						<tr style="padding-top: 20px; padding-bottom: 20px;">
-							<td class="td" width="400px">
-								<div class="bookname">
-								  <img align="middle" width="70" src="<c:url value='/book_img/23254532-1_b.jpg'/>"/>
-								  Spring实战(第3版)（In Action系列中最畅销的Spring图书，近十万读者学习Spring的共同选择）
-								</div>
-							</td>
-							<td class="td" >
-								<span>&yen;40.7</span>
-							</td>
-							<td class="td">
-								<span>1</span>
-							</td>
-							<td class="td">
-								<span>&yen;40.7</span>
-							</td>			
-						</tr>							
-							
-							
 							
 					</table>
 				</dd>
@@ -153,10 +82,14 @@
 		</div>
 		<div class="divBtn">
 			<span class="spanTotal">合　　计：</span>
-			<span class="price_t">&yen;203.5</span><br/>
+			<span class="price_t">&yen;${order.total}</span><br/>
+<c:if test="${order.status eq 2 and btn eq 'deliver' }">
+	<a id="deliver" href="<c:url value='/admin/AdminOrderServlet?method=deliver&oid=${order.oid}'/>">发　　货</a>
+</c:if>
+<c:if test="${order.status eq 1 and btn eq 'cancel' }">
+	<a id="cancel" href="<c:url value='/admin/AdminOrderServlet?method=cancel&oid=${order.oid}'/> ">取　　消</a>
+</c:if>
 
-	<a id="deliver" href="javascript:alert('订单发货成功！')">发　　货</a>
-	<a id="cancel" href="javascript:alert('订单取消成功！')">取　　消</a>
 
 		</div>
 	</div>

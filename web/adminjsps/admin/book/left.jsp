@@ -26,7 +26,7 @@
 		   第二个参数是显示在菜单上的大标题
 		   */
 
-          var bar = new Q6MenuBar("bar", "传智播客网上书城");  //小工具：/menu/mymenu.js
+          var bar = new Q6MenuBar("bar", "网上书城");  //小工具：/menu/mymenu.js
           $(function() {
               bar.colorStyle = 2;   //制定配色样式一共0，1,2,3,4
               bar.config.imgDir = "<c:url value='/menu/img/'/>";//小工具所需图片的路径“+”“-”

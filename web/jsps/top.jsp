@@ -36,7 +36,7 @@
   </head>
   
   <body>
-<h1 style="text-align: center;">播客网上书城系统</h1>
+<h1 style="text-align: center;">网上书城系统</h1>
 <div style="font-size: 10pt; line-height: 10px;">
 
 <%--根据用户是否登陆显示不同的连接 --%>
@@ -51,7 +51,7 @@
 	  <a href="<c:url value='/OrderServlet?method=myOrders'/>" target="body">我的订单</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 	  <a href="<c:url value='/jsps/user/pwd.jsp'/>" target="body">修改密码</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 	  <a href="<c:url value='/UserServlet?method=quit'/>" target="_parent">退出</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-	  <a href="http://www.itcast.cn/channel/contact.shtml" target="_top">联系我们</a>
+	  <a href="http://www.baidu.com" target="_top">联系我们</a>
 	</c:otherwise>
 </c:choose>
 
