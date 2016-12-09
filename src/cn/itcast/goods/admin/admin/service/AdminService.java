@@ -2,6 +2,7 @@ package cn.itcast.goods.admin.admin.service;
 
 import cn.itcast.goods.admin.admin.dao.AdminDao;
 import cn.itcast.goods.admin.admin.domain.Admin;
+import org.junit.Test;
 
 import java.sql.SQLException;
 
@@ -16,11 +17,14 @@ public class AdminService {
      * @param admin
      * @return
      */
+    @Test
     public Admin login(Admin admin){
         try {
             return adminDao.find(admin.getAdminname(),admin.getAdminpwd());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 }
